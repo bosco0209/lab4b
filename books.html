@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q2 — Retrieve and Display JSON Data</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    #error { color: #b00020; font-weight: bold; }
+    #output ul { margin: 4px 0 16px 0; }
+  </style>
+</head>
+<body>
+  <h1>Question 2: Books from books.json</h1>
+
+  <p id="error" role="alert"></p>
+  <div id="output"></div>
+
+  <script>
+    const errorEl = document.getElementById("error");
+    const outputEl = document.getElementById("output");
+
+    // Helper: safely create an element with textContent
+    function makeEl(tag, text) {
+      const el = document.createElement(tag);
+      if (text !== undefined) el.textContent = text;
+      return el;
+    }
+
+    async function loadBooks() {
+      try {
+        const response = await fetch("books.json");
+
+        // Handle unsuccessful requests (404, 500, etc.)
+        if (!response.ok) {
+          throw new Error("HTTP error: " + response.status);
+        }
+
+        const data = await response.json(); // throws on invalid JSON
+
+        // (a) Title of the first book
+        const firstTitle = data.books[0].title;
+        outputEl.appendChild(makeEl("p", "(a) First book title: " + firstTitle));
+
+        // (b) Author of the second book
+        const secondAuthor = data.books[1].author;
+        outputEl.appendChild(makeEl("p", "(b) Second book author: " + secondAuthor));
+
+        // (c) Genres of both books, grouped by title
+        outputEl.appendChild(makeEl("h2", "(c) Genres by book"));
+        data.books.forEach(function (book) {
+          const heading = makeEl("p", book.title + " — " + book.genres.join(", "));
+          heading.style.fontWeight = "bold";
+          outputEl.appendChild(heading);
+
+          const ul = document.createElement("ul");
+          book.genres.forEach(function (genre) {
+            ul.appendChild(makeEl("li", genre));
+          });
+          outputEl.appendChild(ul);
+        });
+
+      } catch (err) {
+        // User-friendly error message
+        errorEl.textContent =
+          "Sorry, we could not load the book data. Please try again later.";
+        console.error(err);
+      }
+    }
+
+    loadBooks();
+  </script>
+</body>
+</html>

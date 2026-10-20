@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q3 — Native JavaScript vs jQuery</title>
+  <style>
+    .myStyle {
+      background-color: coral;
+      padding: 16px;
+    }
+    body { font-family: Arial, sans-serif; margin: 24px; }
+  </style>
+</head>
+<body>
+  <h1>Question 3: Native JS vs jQuery</h1>
+
+  <div id="myElement">Original Text</div>
+  <div id="myDIV"><p>I am a myDIV.</p></div>
+  <button id="myButton">Click me</button>
+
+  <!-- jQuery 4.0.0 full build CDN (not slim) -->
+  <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+
+  <script>
+    // jQuery equivalents of the three native operations:
+
+    // (a) Native: document.getElementById("myElement").textContent = "Modified Text";
+    $("#myElement").text("Modified Text");
+
+    // (b) Native: document.querySelector("#myDIV").classList.add("myStyle");
+    $("#myDIV").addClass("myStyle");
+
+    // (c) Native: document.getElementById("myButton").addEventListener("click", () => alert("Button clicked!"));
+    $("#myButton").on("click", function () {
+      alert("Button clicked!");
+    });
+  </script>
+</body>
+</html>
